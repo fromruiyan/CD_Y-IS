@@ -12,12 +12,19 @@ export default function DownloadComplete() {
     return () => clearTimeout(timer);
   }, []);
 
+  const handleGoHome = () => {
+    setFile(null);
+    setFileName("");
+    setSelectedCategories(new Set());
+    navigate("/");
+  };
+
   return (
     <div className="download-page">
       <h1 className={`fade-in-text ${visible ? "visible" : ""}`}>
         다운로드가 완료되었습니다.
       </h1>
-      <button className="home-button" onClick={() => navigate("/")}>
+      <button className="home-button" onClick={handleGoHome}>
         홈으로
       </button>
     </div>
