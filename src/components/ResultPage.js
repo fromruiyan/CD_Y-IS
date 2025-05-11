@@ -67,7 +67,7 @@ export default function ResultPage({ blocks }) {
           >
             ✏️ 수정하기
           </button>
-          <button onClick={() => downloadTextFile(blocks)} className="button">
+          <button onClick={() => downloadTextFile(blocks, ()=> {navigate("/complete");})} className="button">
             📄 텍스트로 저장
           </button>
         </div>

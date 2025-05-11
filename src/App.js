@@ -7,6 +7,7 @@ import Upload from "./components/Upload";
 import Category from "./components/Category";
 import ResultPage from "./components/ResultPage";
 import EditPage from "./components/EditPage";
+import DownloadComplete from "./components/DownloadComplete";
 
 export default function App() {
   const [blocks, setBlocks] = useState([]);
@@ -77,6 +78,7 @@ export default function App() {
             />
           }
         />
+        <Route path="/complete" element={<DownloadComplete />} />
       </Routes>
     </Router>
   );

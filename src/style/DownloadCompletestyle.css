@@ -1,0 +1,30 @@
+.download-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background-color: white;
+}
+
+.fade-in-text {
+  opacity: 0;
+  transition: opacity 2s ease-in;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.fade-in-text.visible {
+  opacity: 1;
+}
+
+.home-button {
+  margin-top: 20px;
+  padding: 8px 16px;
+  background-color: black;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+}
