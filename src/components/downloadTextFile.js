@@ -10,11 +10,10 @@ export default function downloadTextFile(blocks, callback) {
   link.click();
   document.body.removeChild(link);
 
-    // 다운 버튼 이후 약간의 지연 이후 다운로드 완료 페이지를 띄움(callback)
   setTimeout(() => {
     URL.revokeObjectURL(link.href);
     if (callback) callback();
-  }, 200); //200ms딜레이이
+  }, 300); //딜레이
 }
 
 function formatTime(seconds) {

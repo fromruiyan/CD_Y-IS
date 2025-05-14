@@ -1,5 +1,7 @@
 import React, { useState } from "react";
+import { useApp } from "../context/AppContext";
 import { useLocation, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const categories = {
   "📚 지식/정보": [
@@ -29,9 +31,10 @@ const categories = {
 export default function Category() {
   const location = useLocation();
   const navigate = useNavigate();
+  const { setVideoId } = useApp();
+  const { file, fileName, selectedCategories, setSelectedCategories } =
+    useApp(); // ✅ Context에서 불러오기
   const [openCategory, setOpenCategory] = useState(null);
-  const { file, fileName } = location.state || {};
-  const [selectedCategories, setSelectedCategories] = useState(new Set());
 
   const toggleCategory = (category) => {
     setOpenCategory(openCategory === category ? null : category);
@@ -44,14 +47,39 @@ export default function Category() {
     setSelectedCategories(newSet);
   };
 
-  const handleNext = () => {
-    navigate("/result", {
-      state: {
-        file,
-        fileName,
-        selectedCategories: Array.from(selectedCategories), // Set → Array
-      },
-    });
+  const handleNext = async () => {
+    if (!file || !fileName || selectedCategories.size === 0) {
+      alert("파일과 카테고리를 모두 선택해 주세요!");
+      console.log(file, fileName, selectedCategories);
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("fileName", fileName);
+    formData.append(
+      "categories",
+      JSON.stringify(Array.from(selectedCategories))
+    );
+
+    try {
+      const response = await axios.post(
+        "http://127.0.0.1:5000/upload",
+        formData);
+
+      console.log("✅ 업로드 성공:", response.data);
+
+      const video_id = response.data.video_id;
+      setVideoId(video_id);
+
+      console.log("✅ 업로드 성공:", video_id);
+
+      // 성공 시 다음 페이지로 이동
+      navigate("/result");
+    } catch (error) {
+      console.error("❌ 업로드 실패:", error);
+      alert("서버 전송 중 문제가 발생했습니다.");
+    }
   };
 
   return (

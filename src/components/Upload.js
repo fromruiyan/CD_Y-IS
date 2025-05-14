@@ -1,4 +1,5 @@
 import React from "react";
+import { useApp } from "../context/AppContext";
 import { useNavigate } from "react-router-dom";
 
 const allowedExtensions = [
@@ -12,8 +13,9 @@ const allowedExtensions = [
   "opus",
 ];
 
-export default function Upload({ file, setFile, fileName, setFileName }) {
+export default function Upload() {
   const navigate = useNavigate();
+  const { file, fileName, setFile, setFileName } = useApp();
   const handleFileChange = (e) => {
     const selectedFile = e.target.files[0];
     if (!selectedFile) return;
@@ -44,10 +46,7 @@ export default function Upload({ file, setFile, fileName, setFileName }) {
           <button
             onClick={() => {
               if (file && fileName)
-                navigate("/category", {
-                  state: { file, fileName },
-                });
-              // ✅ 상태로 전달
+                navigate("/category");
               else alert("파일을 업로드 해주세요!");
             }}
           >

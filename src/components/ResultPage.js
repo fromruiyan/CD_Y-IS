@@ -1,25 +1,38 @@
 import React, { useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { useApp } from "../context/AppContext";
+import { useBlocks } from "../context/BlocksContext";
 import downloadTextFile from "./downloadTextFile";
+import axios from "axios";
 import "../ResultEditStyles.css";
 
-export default function ResultPage({ blocks }) {
-  const location = useLocation();
+export default function ResultPage() {
   const navigate = useNavigate();
-  const { file, fileName, selectedCategories = [] } = location.state || {};
-
+  const { videoId, fileName, setFileName, selectedCategories, setSelectedCategories } = useApp();
+  const { blocks, setBlocks } = useBlocks();
   const [videoUrl, setVideoUrl] = useState(null);
-
+  // 서버에서 데이터 받아오기
   useEffect(() => {
-    if (!file) return;
+    if (!videoId) {
+      console.warn("⚠️ videoId 없음");
+      return;
+    }
 
-    const url = URL.createObjectURL(file);
-    setVideoUrl(url);
+    const fetchResultData = async () => {
+      try {
+        const response = await axios.get(`http://127.0.0.1:5000/status/${videoId}`);
+        const { metadata } = response.data;
 
-    return () => {
-      URL.revokeObjectURL(url);
+        setFileName(metadata.fileName);
+        setSelectedCategories(new Set(metadata.categories));
+        setBlocks(metadata.blocks); //blocks설정
+      } catch (error) {
+        console.error("❌ 데이터 불러오기 실패:", error);
+      }
     };
-  }, [file]);
+
+    fetchResultData();
+  }, [videoId]);
 
   return (
     <div className="page-wrapper">
@@ -27,14 +40,10 @@ export default function ResultPage({ blocks }) {
       <div className="card">
         <div className="flex-row">
           <div className="video-container">
-            {videoUrl ? (
-              <video controls className="video-player">
-                <source src={videoUrl} type={file?.type || "video/mp4"} />
-                Your browser does not support the video tag.
-              </video>
-            ) : (
-              <p>비디오를 불러올 수 없습니다.</p>
-            )}
+            <video controls className="video-player">
+              <source src={`/video/${fileName}`} type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
           </div>
 
           <div className="text-container">
@@ -44,7 +53,7 @@ export default function ResultPage({ blocks }) {
             <div className="label" style={{ marginTop: "12px" }}>
               카테고리
             </div>
-            <div className="value-box">{selectedCategories.join(", ")}</div>
+            <div className="value-box">{Array.from(selectedCategories).join(", ")}</div>
           </div>
         </div>
 
@@ -57,17 +66,17 @@ export default function ResultPage({ blocks }) {
         </div>
 
         <div className="button-row">
+          <button onClick={() => navigate("/edit")} className="button">
+            ✏️ 수정하기
+          </button>
           <button
             onClick={() =>
-              navigate("/edit", {
-                state: { file, fileName, selectedCategories },
+              downloadTextFile(blocks, () => {
+                navigate("/complete");
               })
             }
             className="button"
           >
-            ✏️ 수정하기
-          </button>
-          <button onClick={() => downloadTextFile(blocks, ()=> {navigate("/complete");})} className="button">
             📄 텍스트로 저장
           </button>
         </div>
@@ -80,16 +89,11 @@ function formatTime(seconds) {
   const hrs = Math.floor(seconds / 3600);
   const mins = Math.floor((seconds % 3600) / 60);
   const secs = Math.floor(seconds % 60);
-
-  if (hrs > 0) {
-    // 1시간 이상이면 HH:MM:SS
-    return `${hrs.toString().padStart(2, "0")}:${mins
-      .toString()
-      .padStart(2, "0")}:${secs.toString().padStart(2, "0")}`;
-  } else {
-    // 1시간 미만이면 MM:SS
-    return `${mins.toString().padStart(2, "0")}:${secs
-      .toString()
-      .padStart(2, "0")}`;
-  }
+  return hrs > 0
+    ? `${hrs.toString().padStart(2, "0")}:${mins
+        .toString()
+        .padStart(2, "0")}:${secs.toString().padStart(2, "0")}`
+    : `${mins.toString().padStart(2, "0")}:${secs
+        .toString()
+        .padStart(2, "0")}`;
 }

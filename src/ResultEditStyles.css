@@ -7,12 +7,12 @@ body {
 }
 
 .page-wrapper {
-  min-height: 100vh;
+  /* height: 100vh; */
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  padding: 40px 20px;
-  margin-top: 50px;
+  padding: 30px 20px;
+  margin-top: 30px;
 }
 
 .heading {
@@ -22,8 +22,8 @@ body {
 }
 .header-title {
   position: absolute;
-  top: 10px;
-  left: 40px;
+  top: 0px;
+  left: 20px;
   font-size: 28px;
   font-weight: bold;
   color: black;
@@ -32,9 +32,8 @@ body {
 .card {
   background: white;
   color: black;
-  width: 100%;
-  height: 80%;
-  max-width: 1000px;
+  width: 1200px;
+  height: 550px;
   border-radius: 8px;
   padding: 24px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
@@ -42,34 +41,30 @@ body {
 
 .flex-row {
   display: flex;
-  flex-direction: column;
+  flex-direction: row; /*기본부터 가로 정렬로 바꾸기*/
+  flex-wrap: nowrap; /* 줄 바꿈 방지 */
+  align-items: flex-start;
   gap: 24px;
   margin-bottom: 24px;
 }
 
-@media (min-width: 768px) {
-  .flex-row {
-    flex-direction: row;
-  }
-}
-
 .text-container {
-  width: 100%;
+  width: 60%;
+  overflow: auto;
+  max-height: 550px;
   padding-top: 20px;
+  margin-right: 20px;
+  word-break: break-word; /* 긴 단어 줄바꿈 */
+  overflow-wrap: break-word;
 }
 
 .video-container {
+  width: 40%;
   display: flex;
+  min-width: 300px;
   justify-content: center;
   align-items: center;
-  padding: 20px 0;
-}
-
-@media (min-width: 768px) {
-  .video-container,
-  .text-container {
-    width: 50%;
-  }
+  padding: 10px 0;
 }
 
 .video-player {
@@ -94,13 +89,13 @@ body {
 
 .timestamp-box {
   background-color: #f3f3f3;
+  height: 120px;
   padding: 16px;
   border-radius: 6px;
   font-size: 14px;
   color: #333;
   white-space: pre-line;
   overflow-y: scroll;
-  /* margin-bottom: 16px; */
 }
 
 .button-row {
@@ -112,7 +107,7 @@ body {
 .button {
   background-color: white;
   color: black;
-  margin-top: 16px;
+  margin-top: 32px;
   padding: 10px 16px;
   border-radius: 4px;
   cursor: pointer;
@@ -122,7 +117,7 @@ body {
 }
 
 .button:hover {
-  background-color: grey;
+  background-color: #ccc;
 }
 
 /* === EditPage 타임라인 === */
@@ -151,8 +146,8 @@ body {
   position: absolute;
   left: -30px;
   top: 16px;
-  width: 14px;
-  height: 14px;
+  width: 12px;
+  height: 12px;
   background-color: black;
   border: 2px solid white;
   border-radius: 50%;
@@ -186,38 +181,48 @@ body {
   text-decoration: underline;
 }
 
-/* 타임스탬프 추가 부분 */
-.input-section {
-  background-color: #f3f3f3;
-  border-radius: 8px;
-  padding: 16px;
-  margin-bottom: 24px;
-  text-align: center; /* 텍스트도 가운데 */
-}
-
 .input-grid {
-  display: inline-grid; /* 핵심! block에서 inline-grid로 */
-  grid-template-columns: 2fr 1fr auto;
+  display: inline-grid;
+
+  grid-template-columns: 2fr 1fr;
   gap: 12px;
   justify-content: center; /* 옵션: 중앙 배치 */
-  margin-top: 16px;
-  margin-bottom: 24px;
 }
 
 .input-field {
   outline: none;
   box-shadow: none;
   border: none;
+  padding: 12px;
+}
+
+.Indexinput-field {
+  box-shadow: none;
+  border: 1px solid #ccc;
+  outline: none;
+  border-radius: 8px;
+  padding: 12px;
 }
 
 .add-button {
-  margin-top: 20px;
+  /* margin-top: 0px; */
+  width: 130px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  justify-content: center;
+  cursor: pointer;
+  grid-column: 1 / -1; /* 인풋과 h3처럼 전체 너비 차지 */
+  justify-self: center;
+}
+
+.add-button:hover {
+  background-color: #ccc;
 }
 
 .EditBackbutton {
   background-color: white;
   color: black;
-  margin-top: 20px;
+  margin-bottom: 15px;
   padding: 10px 16px;
   border-radius: 4px;
   cursor: pointer;
@@ -227,5 +232,35 @@ body {
 }
 
 .EditBackbutton:hover {
-  background-color: grey;
+  background-color: #ccc;
+}
+
+.edit-layout {
+  display: flex;
+  gap: 24px;
+  margin-top: 24px;
+}
+
+.left-column {
+  display: flex;
+  flex-direction: column;
+  width: 40%;
+  gap: 16px;
+}
+
+.right-column {
+  width: 60%;
+}
+
+.EditP_video-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px 0;
+}
+
+.EditP_video-player {
+  width: 100%;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 }
