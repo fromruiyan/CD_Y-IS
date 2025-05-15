@@ -2,9 +2,11 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useApp } from "../context/AppContext";
 import "../style/DownloadCompletestyle.css";
+import RatingPopup from "./RatingPopup";
 
 export default function DownloadComplete() {
   const navigate = useNavigate();
+  const [showRating, setShowRating] = useState(false);
   const [visible, setVisible] = useState(false);
   const { setFile, setFileName, setSelectedCategories } = useApp();
 
@@ -31,9 +33,15 @@ export default function DownloadComplete() {
       <h1 className={`fade-in-text ${visible ? "visible" : ""}`}>
         다운로드가 완료되었습니다.
       </h1>
-      <button className="home-button" onClick={handleGoHome}>
-        🏠 홈으로
-      </button>
+      <div className="button-group">
+        <button className="home-button" onClick={handleGoHome}>
+          🏠 홈으로
+        </button>
+        <button className="rate-button" onClick={() => setShowRating(true)}>
+          ⭐ 평가하기
+        </button>
+      </div>
+      {showRating && <RatingPopup onClose={() => setShowRating(false)} />}
     </div>
   );
 }

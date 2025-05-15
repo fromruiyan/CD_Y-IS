@@ -1,13 +1,11 @@
-/* style.css */
 body {
-  background-color: white;
-  color: black;
+  background-color: #f9fafb; /* 밝은 그레이톤 배경 */
+  color: #1f2937; /* 진한 회색 텍스트 */
   margin: 0;
-  font-family: sans-serif;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .page-wrapper {
-  /* height: 100vh; */
   display: flex;
   justify-content: center;
   align-items: flex-start;
@@ -20,29 +18,30 @@ body {
   font-weight: bold;
   margin-bottom: 24px;
 }
+
 .header-title {
   position: absolute;
-  top: 0px;
+  top: 0;
   left: 20px;
   font-size: 28px;
   font-weight: bold;
-  color: black;
+  color: #111827;
 }
 
 .card {
   background: white;
-  color: black;
+  color: #1f2937;
   width: 1200px;
   height: 550px;
-  border-radius: 8px;
+  border-radius: 12px;
   padding: 24px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
 }
 
 .flex-row {
   display: flex;
-  flex-direction: row; /*기본부터 가로 정렬로 바꾸기*/
-  flex-wrap: nowrap; /* 줄 바꿈 방지 */
+  flex-direction: row;
+  flex-wrap: nowrap;
   align-items: flex-start;
   gap: 24px;
   margin-bottom: 24px;
@@ -54,7 +53,7 @@ body {
   max-height: 550px;
   padding-top: 20px;
   margin-right: 20px;
-  word-break: break-word; /* 긴 단어 줄바꿈 */
+  word-break: break-word;
   overflow-wrap: break-word;
 }
 
@@ -69,7 +68,7 @@ body {
 
 .video-player {
   width: 100%;
-  border-radius: 8px;
+  border-radius: 12px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 }
 
@@ -77,23 +76,23 @@ body {
   font-size: 14px;
   font-weight: 600;
   margin-bottom: 4px;
-  color: #444;
+  color: #374151;
 }
 
 .value-box {
-  background-color: #f3f3f3;
+  background-color: #f3f4f6;
   padding: 8px;
-  border-radius: 4px;
+  border-radius: 6px;
   font-size: 14px;
 }
 
 .timestamp-box {
-  background-color: #f3f3f3;
-  height: 120px;
+  background-color: #f3f4f6;
+  height: 150px;
   padding: 16px;
-  border-radius: 6px;
-  font-size: 14px;
-  color: #333;
+  border-radius: 8px;
+  font-size: 16px;
+  color: #374151;
   white-space: pre-line;
   overflow-y: scroll;
 }
@@ -106,38 +105,47 @@ body {
 
 .button {
   background-color: white;
-  color: black;
-  margin-top: 32px;
+  color: #1f2937;
+  margin-top: 16px;
   padding: 10px 16px;
-  border-radius: 4px;
+  border-radius: 6px;
+  border: 1px solid #9ca3af;
   cursor: pointer;
-  border-width: 1px;
-  border-color: grey;
-  text-align: "center";
+  transition: background-color 0.2s ease;
 }
 
-.button:hover {
-  background-color: #ccc;
+.EditBackbutton {
+  background-color: white;
+  color: #1f2937;
+  padding: 10px 16px;
+  border-radius: 6px;
+  border: 1px solid #9ca3af;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
 }
 
-/* === EditPage 타임라인 === */
+.button:hover,
+.EditBackbutton:hover,
+.add-button:hover {
+  background-color: #e5e7eb;
+}
+
+/* === 타임라인 === */
 .timeline-wrapper {
   position: relative;
-  padding-left: 30px;
-  padding-right: 20px;
-  padding-top: 20px;
-  max-height: 400px; /* 높이 고정 (타임스탬프 4개 정도) */
-  overflow-y: auto; /* 넘칠 경우 세로 스크롤 */
-  border: 1px solid #ddd; /* 구분을 위한 테두리 (선택사항) */
+  padding: 20px;
+  max-height: 400px;
+  overflow-y: auto;
+  border: 1px solid #e5e7eb;
   border-radius: 8px;
-  background-color: #fff; /* 스크롤 영역 배경 (선택) */
+  background-color: #fff;
 }
 
 .timeline-entry {
   position: relative;
   margin-bottom: 24px;
-  background-color: #f5f5f5;
-  border-radius: 8px;
+  background-color: #f3f4f6;
+  border-radius: 10px;
   padding: 16px;
   margin-left: 16px;
 }
@@ -148,7 +156,7 @@ body {
   top: 16px;
   width: 12px;
   height: 12px;
-  background-color: black;
+  background-color: #2563eb;
   border: 2px solid white;
   border-radius: 50%;
 }
@@ -158,8 +166,8 @@ body {
   justify-content: space-between;
   font-size: 14px;
   margin-bottom: 8px;
+  color: #374151;
   cursor: pointer;
-  color: #444;
 }
 
 .timestamp-meta span:hover {
@@ -170,7 +178,7 @@ body {
   position: absolute;
   right: 16px;
   top: 40px;
-  color: red;
+  color: #ef4444;
   font-size: 16px;
   text-align: right;
   margin-top: 8px;
@@ -183,10 +191,9 @@ body {
 
 .input-grid {
   display: inline-grid;
-
   grid-template-columns: 2fr 1fr;
   gap: 12px;
-  justify-content: center; /* 옵션: 중앙 배치 */
+  justify-content: center;
 }
 
 .input-field {
@@ -197,42 +204,24 @@ body {
 }
 
 .Indexinput-field {
-  box-shadow: none;
-  border: 1px solid #ccc;
+  border: 1px solid #d1d5db;
   outline: none;
   border-radius: 8px;
   padding: 12px;
+  font-size: 15px;
 }
 
 .add-button {
-  /* margin-top: 0px; */
   width: 130px;
   border-radius: 8px;
-  border: 1px solid #ccc;
+  border: 1px solid #d1d5db;
   justify-content: center;
   cursor: pointer;
-  grid-column: 1 / -1; /* 인풋과 h3처럼 전체 너비 차지 */
+  grid-column: 1 / -1;
   justify-self: center;
-}
-
-.add-button:hover {
-  background-color: #ccc;
-}
-
-.EditBackbutton {
-  background-color: white;
-  color: black;
-  margin-bottom: 15px;
-  padding: 10px 16px;
-  border-radius: 4px;
-  cursor: pointer;
-  border-width: 1px;
-  border-color: grey;
-  text-align: "center";
-}
-
-.EditBackbutton:hover {
-  background-color: #ccc;
+  padding: 10px;
+  background-color: #fff;
+  color: #1f2937;
 }
 
 .edit-layout {

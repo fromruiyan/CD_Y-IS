@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { useApp } from "../context/AppContext";
+import { useBlocks } from "../context/BlocksContext"; // Blocks 상태 가져오기
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 
@@ -33,8 +34,11 @@ export default function Category() {
   const navigate = useNavigate();
   const { setVideoId } = useApp();
   const { file, fileName, selectedCategories, setSelectedCategories } =
-    useApp(); // ✅ Context에서 불러오기
+    useApp(); // ✅ AppContext에서 가져옴
+  const { setBlocks } = useBlocks(); // ✅ BlocksContext에서 가져옴
+
   const [openCategory, setOpenCategory] = useState(null);
+  const dropdownRef = useRef(null);
 
   const toggleCategory = (category) => {
     setOpenCategory(openCategory === category ? null : category);
@@ -82,11 +86,24 @@ export default function Category() {
     }
   };
 
+  // 🔹 외부 클릭 감지 로직
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setOpenCategory(null);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   return (
     <div className="container">
       <h1>Y-IS</h1>
       <p>영상을 가장 잘 어울리는 주제를 선택해 주세요.</p>
-      <div className="dropdown-grid">
+      <div className="dropdown-grid" ref={dropdownRef}>
         {Object.keys(categories).map((category) => (
           <div key={category} className="dropdown">
             <button
@@ -121,9 +138,7 @@ export default function Category() {
         <button
           onClick={() => {
             if (selectedCategories.size > 0) {
-              {
-                handleNext();
-              }
+              handleNext();
             } else {
               alert("⚠️ 1개 이상 주제를 선택해 주세요!");
             }

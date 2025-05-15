@@ -88,6 +88,7 @@ body {
 
 .toggle-btn:hover {
   text-decoration: underline;
+  background-color: transparent;
 }
 
 .sentence-list {
@@ -112,16 +113,15 @@ body {
 
 .Backbutton {
   background-color: white;
-  color: black;
+  color: #1f2937;
   margin-top: 32px;
   padding: 10px 16px;
-  border-radius: 4px;
+  border-radius: 6px;
+  border: 1px solid #9ca3af;
   cursor: pointer;
-  border-width: 1px;
-  border-color: grey;
-  text-align: "center";
+  transition: background-color 0.2s ease;
 }
 
-.backbutton:hover {
-  background-color: #ccc;
+.Backbutton:hover {
+  background-color: #e5e7eb;
 }

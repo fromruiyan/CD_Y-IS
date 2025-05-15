@@ -1,0 +1,70 @@
+.popup-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.popup-box {
+  background: white;
+  border-radius: 8px;
+  padding: 24px;
+  width: 360px;
+  position: relative;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.popup-close {
+  position: absolute;
+  top: 8px;
+  right: 12px;
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.popup-section {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 16px;
+}
+
+.popup-title {
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.popup-stars {
+  font-size: 24px;
+  text-align: center;
+}
+
+.star {
+  cursor: pointer;
+  color: #ccc;
+  margin: 0 4px;
+}
+
+.star.filled {
+  color: gold;
+}
+
+.popup-emails p {
+  margin: 4px 0;
+  font-size: 14px;
+}
+
+.popup-submit {
+  width: 100%;
+  padding: 10px;
+  font-weight: bold;
+  border: none;
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
+}

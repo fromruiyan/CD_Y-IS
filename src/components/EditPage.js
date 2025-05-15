@@ -220,8 +220,9 @@ export default function EditPage({ videoRef }) {
             onClick={() => {
               navigate("/toggle");
             }}
+            className="EditBackbutton"
           >
-            🔙 문장 수정
+            ✏️ 문장 수정
           </button>
         </div>
       </div>

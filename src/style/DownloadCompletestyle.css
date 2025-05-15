@@ -4,28 +4,43 @@
   align-items: center;
   justify-content: center;
   height: 100vh;
-  background-color: white;
+  background-color: #f9fafb; /* 밝은 그레이 배경 */
+  padding: 0 20px;
+  text-align: center;
 }
 
 .fade-in-text {
   opacity: 0;
   transition: opacity 2s ease-in;
-  font-size: 24px;
-  font-weight: bold;
+  font-size: 28px;
+  font-weight: 700;
+  color: #1f2937; /* 다크 그레이 */
 }
 
 .fade-in-text.visible {
   opacity: 1;
 }
 
+.button-group {
+  display: flex;
+  justify-content: center;
+  gap: 32px;
+}
+
+.rate-button,
 .home-button {
-  background-color: white;
-  color: black;
-  margin-top: 32px;
-  padding: 10px 16px;
-  border-radius: 4px;
+  background-color: #2563eb;
+  color: white;
+  font-size: 16px;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
   cursor: pointer;
-  border-width: 1px;
-  border-color: grey;
-  text-align: "center";
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.rate-button:hover,
+.home-button:hover {
+  background-color: #1e40af;
+  transform: scale(1.05);
 }

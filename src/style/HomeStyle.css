@@ -1,0 +1,35 @@
+.home-container {
+  text-align: center;
+  padding-top: 20vh;
+  background-color: #f3f4f6;
+  min-height: 100vh;
+  color: #111827;
+}
+
+.home-header {
+  font-size: 48px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.home-description {
+  font-size: 18px;
+  color: #6b7280;
+  margin-bottom: 40px;
+}
+
+.home-container button {
+  background-color: #2563eb;
+  color: white;
+  font-size: 16px;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.home-container button:hover {
+  background-color: #1e40af;
+  transform: scale(1.05);
+}
