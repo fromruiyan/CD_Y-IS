@@ -47,14 +47,17 @@ export default function ResultPage() {
           </div>
 
           <div className="text-container">
-            <div className="label">제목</div>
-            <div className="value-box">{fileName}</div>
-
-            <div className="label" style={{ marginTop: "12px" }}>
-              카테고리
+              <div>
+                <div className="label">제목</div>
+                <div className="value-box">{fileName}</div>
+              </div>
+              <div style={{ marginTop: "12px" }}>
+                <div className="label">카테고리</div>
+                <div className="value-box">
+                  {Array.from(selectedCategories).join(", ")}
+                </div>
+              </div>
             </div>
-            <div className="value-box">{Array.from(selectedCategories).join(", ")}</div>
-          </div>
         </div>
 
         <div className="timestamp-box">

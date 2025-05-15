@@ -133,6 +133,9 @@ export default function Category() {
         ))}
       </div>
       <p className="select-info">✅ 1개 이상 선택해 주세요</p>
+      <div className="selected-info">
+        <div>선택한 카테고리:</div> {Array.from(selectedCategories).join(", ")}
+      </div>
       <div className="button-group">
         <button onClick={() => navigate("/upload")}>이전으로</button>
         <button
