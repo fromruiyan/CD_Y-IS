@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import { useBlocks } from "../context/BlocksContext";
 import { useApp } from "../context/AppContext";
-import "../ResultEditStyles.css";
+import "../style/ResultEditStyles.css";
 
 //수정페이지의 타임라인 표시, 편집
 function TimestampEditor({ blocks, onUpdate, onDelete, onSeek }) {
@@ -134,7 +134,7 @@ export default function EditPage({ videoRef }) {
     }
 
     const newBlock = {
-      id: Date.now().toString(),
+      id: crypto.randomUUID(), //block id
       chapter_title: newSummary,
       timestamp: startSeconds,
     };
@@ -158,7 +158,7 @@ export default function EditPage({ videoRef }) {
             <div className="EditP_video-container">
               {videoUrl ? (
                 <video ref={videoRef} controls className="EditP_video-player">
-                  <source src={videoUrl} type={file?.type || "video/mp4"} />
+                   <source src={videoUrl} type={file?.type || "video/mp4"} />
                   Your browser does not support the video tag.
                 </video>
               ) : (

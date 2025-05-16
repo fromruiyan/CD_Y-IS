@@ -53,21 +53,22 @@ body {
   max-height: 550px;
   padding-top: 20px;
   margin-right: 20px;
-  word-break: break-word;
+  /* word-break: break-word; */
   overflow-wrap: break-word;
 }
 
 .video-container {
   width: 40%;
   display: flex;
-  min-width: 300px;
-  justify-content: center;
-  align-items: center;
+  min-width: 250px;
+  justify-content: left;
+  align-items: first baseline;
   padding: 10px 0;
 }
 
 .video-player {
   width: 100%;
+  min-height: 200px;
   border-radius: 12px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 }

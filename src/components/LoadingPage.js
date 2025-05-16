@@ -5,14 +5,17 @@ import { useBlocks } from "../context/BlocksContext";
 import { useApp } from "../context/AppContext";
 import "../style/LoadingPageStyle.css";
 
+const apiUrl = process.env.REACT_APP_API_URL;
+
 export default function LoadingPage() {
+  
   const navigate = useNavigate();
   const location = useLocation();
-  const { videoId } = location.state || {};
+  const { videoId, fileName, categories } = location.state || {};
 
   const { setBlocks } = useBlocks();
   const { setFileName, setSelectedCategories } = useApp();
-
+  
   useEffect(() => {
     if (!videoId) {
       console.error("❌ videoId가 없습니다.");
@@ -21,8 +24,9 @@ export default function LoadingPage() {
 
     const interval = setInterval(async () => {
       try {
-        const res = await fetch(`http://localhost:5000/status/${videoId}`);
+        const res = await fetch(`${apiUrl}/status/${videoId}`);
         const data = await res.json();
+        console.log("✅ 상태 응답:", data);
 
         if (data.status === "completed") {
           clearInterval(interval);

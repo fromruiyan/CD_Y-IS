@@ -4,6 +4,8 @@ import { useBlocks } from "../context/BlocksContext"; // Blocks 상태 가져오
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 
+const apiUrl = process.env.REACT_APP_API_URL;
+
 const categories = {
   "📚 지식/정보": [
     "🏢 정부/기관/비영리",
@@ -52,39 +54,52 @@ export default function Category() {
   };
 
   const handleNext = async () => {
-    if (!file || !fileName || selectedCategories.size === 0) {
-      alert("파일과 카테고리를 모두 선택해 주세요!");
-      console.log(file, fileName, selectedCategories);
-      return;
-    }
+  if (!file || !fileName || selectedCategories.size === 0) {
+    alert("파일과 카테고리를 모두 선택해 주세요!");
+    console.log(file, fileName, selectedCategories);
+    return;
+  }
 
-    const formData = new FormData();
-    formData.append("file", file);
-    formData.append("fileName", fileName);
-    formData.append(
-      "categories",
-      JSON.stringify(Array.from(selectedCategories))
-    );
+  const formData = new FormData();
+  formData.append("file", file);
+  formData.append("fileName", fileName);
+  formData.append(
+    "categories",
+    JSON.stringify(Array.from(selectedCategories))
+  );
 
-    try {
-      const response = await axios.post(
-        "http://127.0.0.1:5000/upload",
-        formData);
+  try {
+    const response = await axios.post(`${apiUrl}/upload`, formData)
 
-      console.log("✅ 업로드 성공:", response.data);
 
-      const video_id = response.data.video_id;
-      setVideoId(video_id);
+    console.log("✅ 업로드 성공:", response.data);
 
-      console.log("✅ 업로드 성공:", video_id);
+    const video_id = response.data.video_id;
+    setVideoId(video_id);
+    console.log("✅ 업로드 성공:", video_id);
 
-      // 성공 시 다음 페이지로 이동
-      navigate("/result");
-    } catch (error) {
-      console.error("❌ 업로드 실패:", error);
-      alert("서버 전송 중 문제가 발생했습니다.");
-    }
-  };
+    await axios.post(`${apiUrl}/summarize`, {
+      video_id: video_id,
+      user_id: "anonymous",
+      category: Array.from(selectedCategories), // 여러 개 전송
+    });
+
+    console.log("📤 요약 요청 전송 완료");
+
+    // 로딩페이지로 이동
+    navigate("/loading", {
+      state: {
+        videoId: video_id,
+        fileName: fileName,
+        categories: Array.from(selectedCategories),
+      },
+    });
+  } catch (error) {
+    console.error("❌ 업로드 또는 요약 요청 실패:", error);
+    alert("서버 처리 중 오류가 발생했습니다.");
+  }
+};
+ 
 
   // 🔹 외부 클릭 감지 로직
   useEffect(() => {

@@ -1,9 +1,10 @@
+import "./style/ResultEditStyles.css";
 import React, { useRef, useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { BlocksProvider } from "./context/BlocksContext";
 import { AppProvider } from "./context/AppContext";
 import "./styles.css";
-import "./ResultEditStyles.css";
+import "./style/ResultEditStyles.css";
 import Home from "./components/Home";
 import Upload from "./components/Upload";
 import Category from "./components/Category";
@@ -11,6 +12,7 @@ import ResultPage from "./components/ResultPage";
 import EditPage from "./components/EditPage";
 import DownloadComplete from "./components/DownloadComplete";
 import ToggleHandle from "./components/ToggleHandle";
+import LoadingPage from "./components/LoadingPage";
 
 export default function App() {
   const [blocks, setBlocks] = useState([]);
@@ -46,6 +48,7 @@ export default function App() {
                 />
               }
             />
+            <Route path="/loading" element={<LoadingPage />} />
             <Route
               path="/result"
               element={
