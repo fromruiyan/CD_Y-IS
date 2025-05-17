@@ -46,7 +46,7 @@ function TimestampEditor({ blocks, onUpdate, onDelete, onSeek }) {
             style={{
               fontSize: "16px",
               marginBottom: "4px",
-              width: "30%",
+              width: "90%",
               border: "none",
               backgroundColor: "#f3f3f3",
             }}

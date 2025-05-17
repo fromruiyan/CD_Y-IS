@@ -69,19 +69,23 @@ export default function Category() {
   );
 
   try {
+    //[1] 파일 업로드
     const response = await axios.post(`${apiUrl}/upload`, formData)
+    console.log("✅ 파일 업로드 성공:", response.data);
 
-
-    console.log("✅ 업로드 성공:", response.data);
-
+    //video_id 유무 확인
     const video_id = response.data.video_id;
+    if (!video_id) {
+      throw new Error("응답에 video_id가 없습니다.");
+    }
     setVideoId(video_id);
-    console.log("✅ 업로드 성공:", video_id);
+    console.log("✅ video_id:", video_id);
 
+    //요약 요청(summarize)
     await axios.post(`${apiUrl}/summarize`, {
       video_id: video_id,
       user_id: "anonymous",
-      category: Array.from(selectedCategories), // 여러 개 전송
+      category: Array.from(selectedCategories), // 배열로 전송
     });
 
     console.log("📤 요약 요청 전송 완료");
@@ -95,11 +99,13 @@ export default function Category() {
       },
     });
   } catch (error) {
+    //오류 발생시
     console.error("❌ 업로드 또는 요약 요청 실패:", error);
-    alert("서버 처리 중 오류가 발생했습니다.");
+    alert(`서버 처리 중 오류가 발생했습니다.\n${
+        error.response?.data?.error || error.message
+      }`);
   }
 };
- 
 
   // 🔹 외부 클릭 감지 로직
   useEffect(() => {

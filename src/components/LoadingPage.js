@@ -26,12 +26,17 @@ export default function LoadingPage() {
       try {
         const res = await fetch(`${apiUrl}/status/${videoId}`);
         const data = await res.json();
+        if (data.error) {
+          console.error("❌ 서버 오류 응답:", data.error);
+          clearInterval(interval);
+          alert("서버에서 오류가 발생했습니다: " + data.error);
+          return;
+        }
         console.log("✅ 상태 응답:", data);
 
         if (data.status === "completed") {
           clearInterval(interval);
           setBlocks(data.metadata.blocks);
-          setFileName(data.metadata.fileName);
           setSelectedCategories(new Set(data.metadata.categories));
           navigate("/result");
         }
