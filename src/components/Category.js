@@ -161,7 +161,7 @@ export default function Category() {
         <button onClick={() => navigate("/upload")}>이전으로</button>
         <button
           onClick={() => {
-            if (selectedCategories.size > 0) {
+            if (selectedCategories.size > 1) {
               handleNext();
             } else {
               alert("⚠️ 1개 이상 주제를 선택해 주세요!");

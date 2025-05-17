@@ -1,6 +1,6 @@
 export default function downloadTextFile(blocks, callback) {
   const content = blocks
-    .map((b) => `${formatTime(b.timestamp)}\n${b.chapter_title}`)
+    .map((b) => `${formatTime(b.start_time)}\n${b.chapter_title}`)
     .join("\n\n");
   const blob = new Blob([content], { type: "text/plain" });
   const link = document.createElement("a");
