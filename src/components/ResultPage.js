@@ -1,42 +1,27 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useApp } from "../context/AppContext";
 import { useBlocks } from "../context/BlocksContext";
 import downloadTextFile from "./downloadTextFile";
-import axios from "axios";
 import "../style/ResultEditStyles.css";
 
-const apiUrl = process.env.REACT_APP_API_URL;
 
 export default function ResultPage() {
   const navigate = useNavigate();
   const location = useLocation();
+
  const { videoId } = location.state || {};
- const { fileName, selectedCategories, setFileName, setSelectedCategories } = useApp();
-  const { blocks, setBlocks } = useBlocks();
-  const [videoUrl, setVideoUrl] = useState(null);
-  // 서버에서 데이터 받아오기
+ const { fileName, selectedCategories } = useApp();
+  const { blocks } = useBlocks();
+
+  //loadingPage에서만 데이터를 받아오는걸로 하고 resultPage는 삭제
   useEffect(() => {
-    if (!videoId) {
-      console.warn("⚠️ videoId 없음");
-      return;
+  if (!videoId || !fileName || blocks.length === 0) {
+    alert("⚠️데이터가 없습니다. 홈으로 이동합니다.")
+    navigate("/");
     }
+  }, [videoId, fileName, blocks, navigate]);
 
-    const fetchResultData = async () => {
-      try {
-        const response = await axios.get(`${apiUrl}/status/${videoId}`);
-        const { metadata } = response.data;
-
-        setFileName(metadata.fileName);
-        setSelectedCategories(new Set(metadata.categories));
-        setBlocks(metadata.blocks); //blocks설정
-      } catch (error) {
-        console.error("❌ 데이터 불러오기 실패:", error);
-      }
-    };
-
-    fetchResultData();
-  }, [videoId]);
 
   return (
     <div className="page-wrapper">

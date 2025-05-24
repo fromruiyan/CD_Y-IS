@@ -3,7 +3,9 @@ import { useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useBlocks } from "../context/BlocksContext";
 import { useApp } from "../context/AppContext";
+import { normalizeBlocks } from "../utils/normalizeBlocks";
 import "../style/LoadingPageStyle.css";
+import axios from "axios";
 
 const apiUrl = process.env.REACT_APP_API_URL;
 
@@ -14,7 +16,6 @@ export default function LoadingPage() {
   const { videoId, fileName, categories } = location.state || {};
 
   const { setBlocks } = useBlocks();
-  const { setFileName, setSelectedCategories } = useApp();
   
   useEffect(() => {
     if (!videoId) {
@@ -24,8 +25,9 @@ export default function LoadingPage() {
 
     const interval = setInterval(async () => {
       try {
-        const res = await fetch(`${apiUrl}/status/${videoId}`);
-        const data = await res.json();
+        const res = await axios.get(`${apiUrl}/status/${videoId}`);
+        const data = res.data;
+        
         if (data.error) {
           console.error("❌ 서버 오류 응답:", data.error);
           clearInterval(interval);
@@ -36,9 +38,17 @@ export default function LoadingPage() {
 
         if (data.status === "completed") {
           clearInterval(interval);
-          setBlocks(data.metadata.blocks);
-          setSelectedCategories(new Set(data.metadata.categories));
-          navigate("/result");
+
+          //서버에서 blocks없을 시 대비
+          if (!Array.isArray(data.metadata.blocks)) {
+            alert("⚠️ 서버에서 요약 정보가 누락되었습니다.");
+            return;
+          }
+
+          const blocks = normalizeBlocks(data.metadata.blocks);
+          setBlocks(blocks);
+
+          navigate("/result", { state: { videoId } });
         }
       } catch (error) {
         console.error("🔁 상태 확인 실패", error);

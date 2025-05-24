@@ -6,6 +6,7 @@ const AppContext = createContext();
 // ✅ 로컬스토리지 key를 상수로 관리
 const FILE_NAME_KEY = "fileName";
 const SELECTED_CATEGORIES_KEY = "selectedCategories";
+const VIDEO_ID_KEY = "videoId";
 
 export function AppProvider({ children }) {
   const [file, setFile] = useState(null);
@@ -14,7 +15,9 @@ export function AppProvider({ children }) {
     return localStorage.getItem(FILE_NAME_KEY) || "";
   });
 
-  const [videoId, setVideoId] = useState("");
+  const [videoId, setVideoId] = useState(() => {
+  return localStorage.getItem(VIDEO_ID_KEY) || "";
+  });
 
   const [selectedCategories, setSelectedCategories] = useState(() => {
     try {
@@ -26,11 +29,17 @@ export function AppProvider({ children }) {
     }
   });
 
+
+//video_ID저장(새로고침하면 video_ID가 사라져서 영상 안보일 수 있음..)
+  useEffect(() => {
+  localStorage.setItem(VIDEO_ID_KEY, videoId);
+  }, [videoId]);
+
   // fileName이 바뀔 때 저장
   useEffect(() => {
     localStorage.setItem(FILE_NAME_KEY, fileName);
   }, [fileName]);
-
+  
   // selectedCategories가 바뀔 때 저장
   useEffect(() => {
     localStorage.setItem(
