@@ -45,6 +45,7 @@ export default function LoadingPage() {
             return;
           }
 
+          //데이터가 blocks형태로 제공되지 않을 시 block화 하는 코드(src/utils/normalizeBlocks.js)
           const blocks = normalizeBlocks(data.metadata.blocks);
           setBlocks(blocks);
 
