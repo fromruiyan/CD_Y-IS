@@ -1,21 +1,26 @@
 import React, { useState } from "react";
 import "../style/RatingPopupStyle.css";
+import axios from "axios";
+
+const apiUrl = process.env.REACT_APP_API_URL;
 
 export default function RatingPopup({ onClose }) {
   const [rating, setRating] = useState(0);
 
+
   const submitRating = async () => {
     if (rating === 0) return alert("별점을 선택해주세요!");
 
-    await fetch("http://localhost:5000/rate", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ rating }),
-    });
-
-    alert("감사합니다! 평가가 등록되었습니다.");
-    onClose();
+    try {
+      await axios.post(`${apiUrl}/rate`, { rating }); //추후 주소 편집 필요
+      alert("감사합니다! 평가가 등록되었습니다.");
+      onClose();
+    } catch (error) {
+      console.error("❌ 별점 전송 실패:", error);
+      alert("별점 등록 중 오류가 발생했습니다.");
+    }
   };
+
 
   return (
     <div className="popup-backdrop">

@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useBlocks } from "../context/BlocksContext";
 import { useApp } from "../context/AppContext";
-import { normalizeBlocks } from "../utils/normalizeBlocks";
+// import { normalizeBlocks } from "../utils/normalizeBlocks";
 import "../style/LoadingPageStyle.css";
 import axios from "axios";
 
@@ -39,25 +39,37 @@ export default function LoadingPage() {
         if (data.status === "completed") {
           clearInterval(interval);
 
-          //서버에서 blocks없을 시 대비
-          if (!Array.isArray(data.metadata.blocks)) {
+          try {
+          // ✅ 결과 데이터를 따로 가져오기
+          const summaryRes = await axios.get(`${apiUrl}/sentences/summary/${videoId}`);
+          const summaryData = summaryRes.data;
+
+          //서버에서 데이터없을 시 대비
+          if (!Array.isArray(summaryData)) {
             alert("⚠️ 서버에서 요약 정보가 누락되었습니다.");
             return;
           }
 
-          //데이터가 blocks형태로 제공되지 않을 시 block화 하는 코드(src/utils/normalizeBlocks.js)
-          const blocks = normalizeBlocks(data.metadata.blocks);
-          setBlocks(blocks);
+          // 데이터가 blocks형태로 제공되지 않을 시 block화 하는 코드(src/utils/normalizeBlocks.js)
+          // const blocks = normalizeBlocks(data.metadata.blocks);
+          setBlocks(summaryData);
 
           navigate("/result", { state: { videoId } });
+        
+        } catch (summaryError) {
+          console.error("❌ 요약 정보 요청 실패:", summaryError);
+          alert("요약 정보를 가져오는 데 실패했습니다.");
         }
-      } catch (error) {
-        console.error("🔁 상태 확인 실패", error);
       }
-    }, 3000);
 
-    return () => clearInterval(interval);
-  }, [videoId]);
+    } catch (error) {
+      console.error("🔁 상태 확인 실패", error);
+    }
+  }, 3000);
+
+  // ✅ clean-up 함수
+  return () => clearInterval(interval);
+}, [videoId, navigate, setBlocks]);
 
   return (
     <div>
@@ -66,4 +78,4 @@ export default function LoadingPage() {
       <div className="loading-spinner"></div>
     </div>
   );
-}
+  }
