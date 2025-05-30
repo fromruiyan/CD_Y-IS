@@ -41,6 +41,7 @@ export default function LoadingPage() {
 
           try {
           // ✅ 결과 데이터를 따로 가져오기
+          //status가 completed 되면 sentences/summary에서 데이터 받아옴
           const summaryRes = await axios.get(`${apiUrl}/sentences/summary/${videoId}`);
           const summaryData = summaryRes.data;
 
