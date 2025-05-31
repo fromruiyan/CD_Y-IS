@@ -4,6 +4,8 @@ import { useBlocks } from "../context/BlocksContext";
 import { useApp } from "../context/AppContext";
 import "../style/ResultEditStyles.css";
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
+import axios from "axios";
+
 
 //수정페이지의 타임라인 표시, 편집
 function TimestampEditor({
@@ -198,6 +200,40 @@ export default function EditPage({ videoRef }) {
   const [newStart, setNewStart] = useState("");
   const [expandedBlockIds, setExpandedBlockIds] = useState([]);
   const [dragInfo, setDragInfo] = useState({ blockId: null, index: null }); // ✅ 추가
+
+  const apiUrl = process.env.REACT_APP_API_URL;  // 기존에 쓰던 API url 변수
+
+  //변경내용반영
+  const saveChangesAndFetch = async () => {
+    try {
+      const videoId = location.state?.videoId;
+      if (!videoId) {
+        alert("videoId가 없습니다!");
+        return;
+      }
+
+      // 1️⃣ 변경된 blocks 데이터를 서버에 POST
+      await axios.post(`${apiUrl}/sentences/update/${videoId}`, {
+        blocks: blocks  // 현재 상태 보내기
+      });
+
+      // 2️⃣ 서버에서 최신 summary 데이터 다시 가져오기
+      const res = await axios.get(`${apiUrl}/sentences/summary/${videoId}`);
+      const newBlocks = res.data;
+
+      // 3️⃣ 받아온 데이터를 setBlocks 에 반영
+      setBlocks(newBlocks);
+
+      // 4️⃣ 완료 후 navigate
+      alert("변경 내용을 저장하고 결과화면으로 이동합니다.");
+      navigate("/result");
+
+    } catch (error) {
+      console.error("저장 중 오류 발생:", error);
+      alert("저장 중 오류가 발생했습니다.");
+    }
+  };
+
 
   //메모리정리
   useEffect(() => {
@@ -483,14 +519,12 @@ export default function EditPage({ videoRef }) {
             🔙 결과로 돌아가기
           </button>
           <button
-            onClick={() => {
-              alert("변경 내용을 저장하고 결과화면으로 이동합니다.");
-              navigate("/result");
-            }}
+            onClick={saveChangesAndFetch}
             className="EditBackbutton"
           >
             💾 변경 내용 저장
           </button>
+
         </div>
       </div>
     </div>
