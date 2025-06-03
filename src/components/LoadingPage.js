@@ -42,7 +42,7 @@ export default function LoadingPage() {
           try {
           // ✅ 결과 데이터를 따로 가져오기
           //status가 completed 되면 sentences/summary에서 데이터 받아옴
-          const summaryRes = await axios.get(`${apiUrl}/sentences/summary/${videoId}`);
+          const summaryRes = await axios.get(`https://0ea1-203-253-93-65.ngrok-free.app/summarize/${videoId}`);
           const summaryData = summaryRes.data;
 
           //서버에서 데이터없을 시 대비

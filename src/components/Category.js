@@ -65,6 +65,7 @@ export default function Category() {
   formData.append("fileName", fileName);
   formData.append(
     "categories",
+    //JSON.stringify(Array.from(selectedCategories))
     JSON.stringify(Array.from(selectedCategories))
   );
 
@@ -82,11 +83,19 @@ export default function Category() {
     console.log("✅ video_id:", video_id);
 
     //요약 요청(summarize)
-    await axios.post(`${apiUrl}/summarize`, {
+    console.log("📤 summarize 요청 video_id:", video_id);
+    await axios.post(`https://0ea1-203-253-93-65.ngrok-free.app/summarize`, 
+    {
       video_id: video_id,
-      user_id: "anonymous",
-      category: Array.from(selectedCategories), // 배열로 전송
-    });
+      user_id: "test_user",
+      category: Array.from(selectedCategories), //배열로 전송
+    },
+    {
+    headers: {
+      "Content-Type": "application/json",
+      },
+    }
+  );
 
     console.log("📤 요약 요청 전송 완료");
 
@@ -161,7 +170,7 @@ export default function Category() {
         <button onClick={() => navigate("/upload")}>이전으로</button>
         <button
           onClick={() => {
-            if (selectedCategories.size > 1) {
+            if (selectedCategories.size > 0) {
               handleNext();
             } else {
               alert("⚠️ 1개 이상 주제를 선택해 주세요!");
